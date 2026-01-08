@@ -1,2 +1,2 @@
 # Smart Schedule
-Мой первый проект на C++
+My first project for C++
