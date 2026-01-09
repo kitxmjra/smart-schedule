@@ -2,12 +2,24 @@
 #include <vector>
 #include <string>
 #include <iomanip>
+
+
+
+#define MAX_LESSON_PER_DAY 10
+#define MIN_LESSON_PER_DAY 1
+#define HOUR_MAX_LIMIT 23
+#define HOUR_MIN_LIMIT 0
+#define MINUTE_MAX_LIMIT 59
+#define MINUTE_MIN_LIMIT 0
+
+
+
 class Time {
   int hour;
   int minute;
 public:
   Time(int h = 0, int m = 0) {
-    if(h > 23 || h < 0 || m < 0 || m > 59) {
+    if(h > HOUR_MAX_LIMIT || h < HOUR_MIN_LIMIT || m < MINUTE_MIN_LIMIT || m > MINUTE_MAX_LIMIT) {
       std::cout << "Uncorrect time! Time set 00:00" << std::endl;
       hour = 0;
       minute = 0;
@@ -30,6 +42,8 @@ public:
   int getHour() const { return hour; }
   int getMinute() const { return minute; }
 };
+
+
 class Lesson {
   std::string subjects;
   int roomnumber;
@@ -40,7 +54,7 @@ public:
       Lesson(int lessn, std::string subj, int room, Time start, Time end) : subjects(subj), roomnumber(room), lessnumber(lessn), startTime(start), endTime(end) {
       }
       void printInfo() const {
-        if (lessnumber >= 10 || lessnumber <= 0) {
+        if (lessnumber >= MAX_LESSON_PER_DAY || lessnumber < MIN_LESSON_PER_DAY) {
         std::cout << lessnumber << " Impossible" << std::endl;
         return;
       }
@@ -65,6 +79,8 @@ public:
       }
 
 };
+
+
 class DaySchedule {
     std::string dayName;
     std::vector<Lesson> lessons;
@@ -73,8 +89,8 @@ public:
     DaySchedule(std::string name) : dayName(name) {}
     
     void addLesson(const Lesson& lesson) {
-      if(lessons.size() >= 10) {
-        std::cout << "No more than 10 lessons!!";
+      if(lessons.size() >= MAX_LESSON_PER_DAY) {
+        std::cout << "No more than " << MAX_LESSON_PER_DAY << " lessons per day!" << std::endl;
         return;
       } 
         lessons.push_back(lesson);
@@ -86,6 +102,8 @@ public:
         }
     } 
 };
+
+
 int main() {
         Lesson math(4, "Math", 221, Time(11, 30), Time(12, 30));
         Lesson physics(3, "Physics", 234, Time(10, 30), Time(11, 30 ));
