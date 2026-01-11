@@ -30,7 +30,7 @@ all: $(TARGET)
 # Main linking target
 $(TARGET): $(C_OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $(C_OBJECTS)
-	@echo "✅ Build complete: ./$(TARGET)"
+	@echo "Build complete: ./$(TARGET)"
 
 # Rule to compile any .c file in src-c/
 src-c/%.o: src-c/%.c $(C_HEADERS)
@@ -47,7 +47,7 @@ run: $(TARGET)
 # Clean build artifacts
 clean:
 	rm -f $(TARGET) src-c/*.o
-	@echo "🧹 Cleaned build files"
+	@echo "Cleaned build files"
 
 # Check project structure
 check:
