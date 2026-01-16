@@ -9,5 +9,6 @@ Time creat_time(int h, int m);
 void print_time(const Time* t);
 int time_less(const Time* a, const Time* b);
 int time_equal(const Time* a, const Time* b);
+int time_is_valid(const Time* t);
 
 #endif

@@ -24,3 +24,8 @@ int time_less(const Time* a, const Time* b) {
 int time_equal(const Time* a, const Time* b) {
     return a->hour == b->hour && a->minute == b->minute;
 }
+int time_is_valid(const Time* t) {
+    if(t->hour < 0 || t->hour > 23) return 0;
+    if(t->minute < 0 || t->minute > 59) return 0;
+    return 1;
+}

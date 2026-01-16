@@ -5,6 +5,11 @@
 
 Lesson create_lesson(int num, const char* subj, int room, Time start, Time end) {
     Lesson l;
+    if(!time_is_valid(&start) || !time_is_valid(&end)) {
+        printf("Alarm! uncorrect time!\n"); 
+    l.number = -1;
+    return l;
+    }
     l.number = num;
     strncpy(l.subject, subj, sizeof(l.subject) - 1);
     l.subject[sizeof(l.subject) - 1] = '\0';
