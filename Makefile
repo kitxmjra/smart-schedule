@@ -1,68 +1,66 @@
-# SMART-SCHEDULE MAKEFILE (WINDOWS VERSION)
+# ============================================
+# Makefile for Smart Schedule Project (Linux)
+# ============================================
+
+# Compiler settings
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g
-TARGET = smart-schedule.exe
+TARGET = smart-schedule
 
-# Windows paths with forward slashes (or escaped backslashes)
-C_SOURCES = src-c/main.c \
-            src-c/time.c \
-            src-c/lesson.c
+# File paths
+SRC_DIR = src-c
+C_SOURCES = $(SRC_DIR)/main.c \
+            $(SRC_DIR)/time.c \
+            $(SRC_DIR)/lesson.c \
+            $(SRC_DIR)/day_schedule.c
 
-C_HEADERS = src-c/time.h \
-            src-c/lesson.h
+C_HEADERS = $(SRC_DIR)/time.h \
+            $(SRC_DIR)/lesson.h \
+            $(SRC_DIR)/day_schedule.h
 
-# Object files (same directory as sources for simplicity)
-C_OBJECTS = $(C_SOURCES:.c=.o)
+# Object files
+OBJ_DIR = obj
+C_OBJECTS = $(C_SOURCES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+# ============================================
+# Main targets
+# ============================================
+
+.PHONY: all clean run help
 
 # Default target
-all: $(TARGET)
+all: directories $(TARGET)
 
-# Build the program
+# Create obj directory
+directories:
+	@mkdir -p $(OBJ_DIR)
+
+# Link the program
 $(TARGET): $(C_OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $(C_OBJECTS)
-	@echo  Build complete: $(TARGET)
+	@echo "Build complete: $(TARGET)"
 
 # Compile .c to .o
-src-c/%.o: src-c/%.c $(C_HEADERS)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(C_HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Alternative: compile all in one directory (simpler for Windows)
-simple:
-	$(CC) $(CFLAGS) -o $(TARGET) $(C_SOURCES)
-	@echo  Simple build complete
-
-# Check what files actually exist
-check:
-	@echo === Project Structure Check ===
-	@echo Current directory:
-	@cd
-	@echo.
-	@echo Files in src-c:
-	@dir src-c /B 2>nul || echo Directory src-c not found
-	@echo.
-	@echo Looking for .c files:
-	@dir src-c\*.c 2>nul || echo No .c files found
-	@echo.
-	@echo Looking for .h files:
-	@dir src-c\*.h 2>nul || echo No .h files found
+# ============================================
+# Utility targets
+# ============================================
 
 # Run the program
 run: $(TARGET)
-	$(TARGET)
+	./$(TARGET)
 
 # Clean build files
 clean:
-	del /Q $(TARGET) src-c\*.o 2>nul
-	@echo  Cleaned build files
+	rm -f $(TARGET)
+	rm -rf $(OBJ_DIR)
 
-# Help
+# Help message
 help:
-	@echo Available commands:
-	@echo   make        - Build the project
-	@echo   make simple - Simple one-step build
-	@echo   make run    - Build and run
-	@echo   make clean  - Remove compiled files
-	@echo   make check  - Check project structure
-	@echo   make help   - Show this help
-
-.PHONY: all clean run check help simple
+	@echo "Available commands:"
+	@echo "  make       - Build the project"
+	@echo "  make run   - Build and run"
+	@echo "  make clean - Remove compiled files"
+	@echo "  make help  - Show this help"
