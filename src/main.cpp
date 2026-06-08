@@ -75,7 +75,7 @@ public:
         std::cout << "Room has changed to " << newRoom << std::endl; 
       }
       bool isMath() const {
-        return subjects == "Math" || subjects == "Algebra";
+        return subjects == "Math" || subjects == "Algebra" || subjects == "Geometry";
       }
 
 };
